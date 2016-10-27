@@ -17,9 +17,18 @@ router.post('/:cardId', (request, response, next) => {
     .catch(next)
 })
 
-// DELETE
+// ARCHIVE
 router.post('/:cardId/archive', (request, response, next) => {
   commands.archiveCard(request.params.cardId)
+    .then(() => {
+      response.json(null)
+    })
+    .catch(next)
+})
+
+// UNARCHIVE
+router.post('/:cardId/unarchive', (request, response, next) => {
+  commands.unarchiveCard(request.params.cardId)
     .then(() => {
       response.json(null)
     })
