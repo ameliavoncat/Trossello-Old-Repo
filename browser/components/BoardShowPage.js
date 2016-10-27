@@ -72,7 +72,9 @@ class BoardShowPage extends React.Component {
 
     const lists = board.lists.map(list => {
       const cards = board.cards.filter(card => card.list_id === list.id)
-      return <List key={list.id} board={board} list={list} cards={cards} />
+      if(list.archived === false){
+        return <List key={list.id} board={board} list={list} cards={cards} />
+      }
     })
 
     const style = {

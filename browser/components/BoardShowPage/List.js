@@ -86,12 +86,14 @@ export default class List extends Component {
   render(){
     const { board, list, cards } = this.props
     const cardNodes = cards.map(card => {
+      if(card.archived===false){
       return <Card
         editable={true}
         archivable={true}
         key={card.id}
         card={card}
       />
+      }
     })
 
     let newCardForm, newCardLink
