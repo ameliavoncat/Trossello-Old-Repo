@@ -5,6 +5,7 @@ import Form from './Form'
 import Card from './BoardShowPage/Card'
 import boardStore from '../stores/boardStore'
 import './CardViewModal.sass'
+import EditLabelsButton from './EditLabelsButton'
 import $ from 'jquery'
 
 export default class CardViewModal extends Component {
@@ -20,6 +21,7 @@ export default class CardViewModal extends Component {
     this.state = {
       editingDescription: false,
       editingName: false,
+      editingLabels: false,
     }
     this.editDescription = this.editDescription.bind(this)
     this.stopEditingDescription = this.stopEditingDescription.bind(this)
@@ -64,6 +66,10 @@ export default class CardViewModal extends Component {
 
   editName(){
     this.setState({editingName: true})
+  }
+
+  editLabels(){
+    this.setState({editingLabels: true})
   }
 
   stopEditingName(){
@@ -144,6 +150,8 @@ export default class CardViewModal extends Component {
       </Link>
       </Form> : <div onClick={this.editName} className="CardViewModal-name">{this.props.card.content}</div>
 
+    const editLabelsForm = 'ladidadi'
+
     return <div className="CardViewModal">
       <div onClick={this.props.onClose} className="CardViewModal-shroud">
       </div>
@@ -186,6 +194,7 @@ export default class CardViewModal extends Component {
           <div className="CardViewModal-controls-add">
             <span className="CardViewModal-controls-title">Add</span>
             <div className="CardViewModal-controls-add-buttons">
+            <EditLabelsButton cardId = {this.props.card.id}/>
             </div>
           </div>
           <div className="CardViewModal-controls-actions">
