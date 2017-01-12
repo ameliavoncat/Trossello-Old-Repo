@@ -11,7 +11,8 @@ const LogoutButton = (props) => {
     title="Log Out?"
     message="Are you sure you want to log out?"
     onConfirm={commands.logout}
-    className={className}>
+    className={className}
+  >
     {props.children}
   </ConfirmationButton>
 }

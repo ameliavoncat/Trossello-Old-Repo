@@ -15,7 +15,7 @@ describe('Board Show Page Tests for Lists', () => {
 
       describe('when a user is logged in', ()=> {
         it('can click on a previously existing list header and edit the header name', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/boards/101')
           this.browser.wait(until.elementLocated(By.className('BoardShowPage-ListHeader')), 2000).click()
           this.browser.findElement(By.css('.BoardShowPage-ListHeader > input'), 2000).sendKeys('New List1')
@@ -25,7 +25,7 @@ describe('Board Show Page Tests for Lists', () => {
         })
 
         it('can create a new list', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/boards/101')
           this.browser.wait(until.elementLocated(By.className('BoardShowPage-NewListForm-Link'), 2000)).click()
           this.browser.findElement(By.css('.BoardShowPage-NewListForm-Form > form > input'), 2000).sendKeys('List3')
@@ -36,7 +36,7 @@ describe('Board Show Page Tests for Lists', () => {
         })
 
         it('can copy a list using the list popover menu', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/boards/101')
           this.browser.wait(until.elementLocated(By.css('.BoardShowPage-List[data-list-id="40"] .BoardShowPage-ListOptions > button')), 2000).click()
           this.browser.wait(until.elementLocated(By.className('ListActionsMenu-ListActionsPane-CopyList')), 2000).click()

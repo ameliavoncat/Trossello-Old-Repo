@@ -8,7 +8,7 @@ describe('Homepage tests', () => {
     usingSelenium(() => {
       describe('when a user is logged out', () => {
         it('Should go to the github login', function(done){
-          this.timeout((30000));
+          this.timeout(30000);
           this.browser.visit('/');
           this.browser.wait(until.titleIs('Trossello'), 4000);
           this.browser.findElement(By.linkText('Login Via Github'), 4000).click();
@@ -24,7 +24,7 @@ describe('Homepage tests', () => {
         })
 
         it('Should go to the list of boards', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/')
           this.browser.wait(until.elementLocated(By.className('LoggedInHomepage-BoardListHeading')), 2000)
           this.browser.findElement(By.className('LoggedInHomepage-BoardListHeading')).getText()
@@ -33,19 +33,19 @@ describe('Homepage tests', () => {
         })
 
         it('Should create a new board and select that board when you use the boards dropdown', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/')
           this.browser.findElement(By.className('BoardButton')).click()
           this.browser.wait(until.elementLocated(By.className('BoardsDropdown-Button')), 2000).click()
           this.browser.findElement(By.className('CreateBoardPopover-boardName-input')).sendKeys('Test Board')
           this.browser.findElement(By.xpath("//div[@color='#9d7cae']")).click()
           this.browser.findElement(By.className('CreateBoardPopover-submit-button')).click()
-          this.browser.wait(until.elementLocated(By.xpath('//div[@class="BoardShowPage-Header" and ./div/button/h1[contains(.,"Test Board")]]')), 2000)
+          this.browser.wait(until.elementLocated(By.xpath('//div[@class="BoardShowPage-Header" and ./div/button/h1[contains(.,"Test Board")]]')), 3000)
           this.browser.then(_ => done())
         })
 
         it('Should logout', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/')
           this.browser.findElement(By.className('LogoutButton'), 2000).click()
           this.browser.findElement(By.className('Button-danger'), 2000).click()
@@ -61,12 +61,12 @@ describe('Homepage tests', () => {
         })
 
         it('Should star and then unstar a board', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/')
-          this.browser.wait(until.elementLocated(By.css('.LoggedInHomepage-AllBoards .LoggedInHomepage-Board[data-board-id="101"] > button')), 2000).click()
-          this.browser.wait(until.elementLocated(By.css('.LoggedInHomepage-StarredBoards .LoggedInHomepage-Board[data-board-id="101"]')), 2000)
+          this.browser.wait(until.elementLocated(By.xpath('//div[@class="LoggedInHomepage-AllBoards"]//div[@class="LoggedInHomepage-Boards"]/a[contains(.,"Board1")]/button')), 2000).click()
+          this.browser.wait(until.elementLocated(By.xpath('//div[@class="LoggedInHomepage-StarredBoards"]//div[@class="LoggedInHomepage-Boards"]/a[contains(.,"Board1")]')), 2000)
             .then(board =>{
-              this.browser.findElement(By.css('.LoggedInHomepage-StarredBoards .LoggedInHomepage-Board[data-board-id="101"] > button'), 2000).click()
+              this.browser.findElement(By.xpath('//div[@class="LoggedInHomepage-StarredBoards"]//div[@class="LoggedInHomepage-Boards"]/a[contains(.,"Board1")]/button'), 2000).click()
               this.browser.wait(until.stalenessOf(board), 2000)
               this.browser.then(_ => done())
             })

@@ -7,6 +7,9 @@ import errorHandlers from './error_handlers'
 import authRoutes from './auth_routes'
 import apiRoutes from './api'
 import HTTP from 'http'
+import fs from 'fs'
+import path from 'path'
+const ARTIFACTS_PATH = path.resolve(__dirname, '../../tmp/artifacts')
 
 const appRoot = process.env.APP_ROOT
 const buildPath = process.env.BUILD_PATH
@@ -16,8 +19,14 @@ module.exports = server
 
 
 server.set('env', process.env.NODE_ENV)
-// if (process.env.NODE_ENV !== 'test')
-server.use(logger('dev'))
+
+if (process.env.NODE_ENV !== 'test'){
+  server.use(logger('dev'))
+} else {
+  const logStream = fs.createWriteStream(path.resolve(ARTIFACTS_PATH, 'server.log'), { flags: 'a' })
+  server.use(logger('dev', {stream: logStream}))
+}
+
 server.use(cookieSession({
   name: 'session',
   keys: [process.env.SESSION_KEY]
@@ -43,7 +52,9 @@ server.get('/*', (request, response) => {
 server.use(errorHandlers)
 
 server.start = (port, callback) => {
-  console.log(`Started server at http://localhost:${port}`)
+  if (process.env.NODE_ENV !== 'test'){
+    console.log(`Started server at http://localhost:${port}`)
+    }
   server.set('port', port)
   // server.listen(port, callback)
   const httpServer = HTTP.createServer(server)

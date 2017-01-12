@@ -48,7 +48,7 @@ const Board = ({board}) => {
     backgroundColor: board.background_color
   }
 
-  return <Link style={style} data-board-id={board.id} href={`/boards/${board.id}`} className="LoggedInHomepage-Board">
+  return <Link style={style} href={`/boards/${board.id}`} className="LoggedInHomepage-Board">
     {board.name}
     <BoardStar board={board} />
   </Link>

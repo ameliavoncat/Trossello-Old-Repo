@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import $ from 'jquery'
-import Form from '../Form'
-import Button from '../Button'
-import DialogBox from '../DialogBox'
-import BigSelect from '../BigSelect'
-import './CopyCard.sass'
-import commands from '../../commands'
+import Form from '../../Form'
+import Button from '../../Button'
+import DialogBox from '../../DialogBox'
+import BigSelect from '../../BigSelect'
+import './CopyCardDialog.sass'
+import commands from '../../../commands'
 
-export default class CopyCard extends Component {
+export default class CopyCardDialog extends Component {
   constructor(props){
     super(props)
     this.state = {

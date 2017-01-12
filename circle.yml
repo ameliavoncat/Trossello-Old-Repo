@@ -16,10 +16,6 @@ dependencies:
   cache_directories:
     - ~/.yarn-cache
 
-test:
-  override:
-    - yarn test
-
 general:
   artifacts:
     - "tmp/artifacts"

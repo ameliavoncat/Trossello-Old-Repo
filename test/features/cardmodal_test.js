@@ -13,7 +13,7 @@ describe('Card modal tests', () => {
 
       describe('Edit card tests', () => {
         it('Should update the card title', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/boards/101/cards/90')
           this.browser.wait(until.elementLocated(By.css('.CardModal-CardHeader-header-title > input')), 2000).getAttribute('value')
           .then(cardName => {
@@ -24,7 +24,7 @@ describe('Card modal tests', () => {
           this.browser.then(_ => done())
         })
         it('Should update the card description', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/boards/101/cards/90')
           this.browser.wait(until.elementLocated(By.className('CardModal-CardDescription')), 2000).click()
           this.browser.wait(until.elementLocated(By.css('.CardModal-CardDescription > textarea')), 2000).sendKeys('updated')
@@ -37,7 +37,7 @@ describe('Card modal tests', () => {
 
       describe('Archive card test', () => {
         it('Should archive the card', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/boards/101/cards/90')
           this.browser.wait(until.elementLocated(By.css('.CardModal-Controls > .ConfirmationLink > button')), 2000).click()
           this.browser.wait(until.elementLocated(By.css('.ConfirmationDialog-controls > .Button-danger')), 2000).click()
@@ -49,23 +49,19 @@ describe('Card modal tests', () => {
       describe('Comment tests', () => {
         describe('Should add a new comment to the card', () => {
           it('Should edit the comment', function(done){
-            this.timeout((30000))
+            this.timeout(30000)
             this.browser.visit('/boards/101/cards/90')
             this.browser.wait(until.elementLocated(By.css('.CardModal-CardCommentForm .ContentForm-textarea')), 2000).sendKeys('New Comment')
             this.browser.findElement(By.css('.CardModal-CardCommentForm .ContentForm-controls > .Button-primary'), 2000).click()
-            this.browser.wait(until.elementLocated(By.className('CardModal-CardComment-comment-box')), 2000).getText()
-            .then(commentText => {
-              this.browser.findElement(By.className('CardModal-CardComment-comment-controls-edit'), 2000).click()
-              this.browser.wait(until.elementLocated(By.css('.CardModal-CardComment-comment > .CardModal-CommentEditForm > textarea')), 2000).sendKeys(' Edited')
-              this.browser.findElement(By.css('.CardModal-CardComment-comment button')).click()
-              this.browser.sleep(200)
-              this.browser.findElement(By.css('.CardModal-CardComment-comment-box'), 2000).getText()
-              .then(editedText => expect(commentText).to.not.eql(editedText))
-              this.browser.then(_ => done())
-            })
+            this.browser.wait(until.elementLocated(By.className('CardModal-CardComment-comment-controls-edit')), 2000).click()
+            this.browser.wait(until.elementLocated(By.css('.CardModal-CardComment-comment > .CardModal-CommentEditForm > textarea')), 2000).sendKeys(' Edited')
+            this.browser.findElement(By.css('.CardModal-CardComment-comment button')).click()
+            this.browser.wait(until.elementLocated(By.css('.CardModal-CardComment-comment-box')), 2000)
+            .then(element => this.browser.wait(until.elementTextContains(element, ' Edited')), 2000)
+            this.browser.then(_ => done())
           })
           it('Should delete the comment', function(done){
-            this.timeout((30000))
+            this.timeout(30000)
             this.browser.visit('/boards/101/cards/90')
             this.browser.wait(until.elementLocated(By.css('.CardModal-CardCommentForm .ContentForm-textarea')), 2000).sendKeys('New Comment')
             this.browser.findElement(By.css('.CardModal-CardCommentForm .ContentForm-controls > .Button-primary'), 2000).click()
@@ -82,7 +78,7 @@ describe('Card modal tests', () => {
       describe('Label tests', () => {
         describe('Clicking the label button in controls should open the Label Menu', () => {
           it('Should open the CreateLabelMenu and create a label', function(done){
-            this.timeout((30000))
+            this.timeout(30000)
             this.browser.visit('/boards/101/cards/90')
             this.browser.wait(until.elementLocated(By.css('.CardModal-Controls-label > button'), 2000)).click()
             this.browser.wait(until.elementLocated(By.className('LabelMenu-button')), 2000).click()
@@ -94,7 +90,7 @@ describe('Card modal tests', () => {
             this.browser.then(_ => done())
           })
           it('Should delete a label from the board', function(done){
-            this.timeout((30000))
+            this.timeout(30000)
             this.browser.visit('/boards/101/cards/90')
             this.browser.wait(until.elementLocated(By.css('.CardModal-Controls-label > button')), 2000).click()
             this.browser.findElement(By.className('LabelMenu-LabelRow-box'), 2000)
@@ -111,7 +107,7 @@ describe('Card modal tests', () => {
 
         describe('Clicking on a card label should open the Label Menu', () => {
           it('Should remove a label from the card when the label is clicked from the Menu', function(done){
-            this.timeout((30000));
+            this.timeout(30000);
             this.browser.visit('/boards/101/cards/90')
             this.browser.wait(until.elementLocated(By.className('CardModal-CardBadges-labels-Label'), 2000))
             this.browser.findElement(By.className('CardModal-CardBadges-labels-Label'), 2000)
@@ -124,7 +120,7 @@ describe('Card modal tests', () => {
               })
           })
           it('Should update the text and color of a label', function(done){
-            this.timeout((30000))
+            this.timeout(30000)
             this.browser.visit('/boards/101/cards/90')
             this.browser.wait(until.elementLocated(By.css('.CardModal-CardBadges-labels-Label > button')), 2000).click()
             this.browser.wait(until.elementLocated(By.className('LabelMenu-LabelRow-edit')), 2000).click()
@@ -135,7 +131,10 @@ describe('Card modal tests', () => {
                   this.browser.findElement(By.css('.LabelMenu-CreateLabelPanel-Form > input'), 2000).sendKeys(' edited')
                   this.browser.findElement(By.xpath('//div[@color="#6cc885"]'), 2000).click()
                   this.browser.findElement(By.css('.LabelMenu-CreateLabelPanel-button')).click()
-                  this.browser.sleep(500)
+                  this.browser.findElement(By.xpath('//div[@class="CardLabel-text"]'))
+                  .then(element =>
+                    this.browser.wait(until.elementTextContains(element, ' edited'))
+                  )
                   this.browser.findElement(By.xpath('//div[@class="CardLabel-text"]')).getText()
                     .then( newText => expect( oldText ).to.not.eql( newText ))
                   this.browser.findElement(By.className('CardLabel'), 2000).getCssValue("background-color")
@@ -149,7 +148,7 @@ describe('Card modal tests', () => {
 
       describe('Copy Card test', () => {
         it('Should make a copy of the card with the correct text and order', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/boards/101/cards/90')
           this.browser.wait(until.elementLocated(By.css('.CardModal-Controls-copy > button')), 2000).click()
           this.browser.wait(until.elementLocated(By.className('DialogBox-dialogForm-dialogTextarea')), 2000).sendKeys(' copy')
@@ -164,7 +163,7 @@ describe('Card modal tests', () => {
 
       describe('Hide Details test', () => {
         it('Should hide activity from the card activity feed', function(done){
-          this.timeout((30000))
+          this.timeout(30000)
           this.browser.visit('/boards/101/cards/90')
           this.browser.wait(until.elementLocated(By.className('CardModal-Activity')), 2000)
           .then(activity => {
