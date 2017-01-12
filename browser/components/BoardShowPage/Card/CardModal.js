@@ -19,7 +19,7 @@ import ConfirmationButton from '../../ConfirmationButton'
 import boardStore from '../../../stores/boardStore'
 import TimeFromNow from '../../TimeFromNow'
 import PopoverMenuButton from '../../PopoverMenuButton'
-import CopyCard from '../CopyCard'
+import CopyCardDialog from './CopyCardDialog'
 import Activity from '../../Activity'
 import commands from '../../../commands'
 
@@ -151,7 +151,7 @@ const CardHeader = ({card, list}) => {
 
 const Controls = ({board, list, card, closeModal, labelPanel}) => {
   const dueDate = <DueDatePopover card={card}/>
-  const copyCard = <CopyCard card={card} board={board} list={list}/>
+  const copyCard = <CopyCardDialog card={card} board={board} list={list}/>
   const toggleOnArchived = card.archived ?
     <div>
       <UnArchiveCardButton card={card} />
@@ -220,7 +220,7 @@ class UnArchiveCardButton extends Component {
   }
 
   unarchive(){
-    commands.unarchiveCard(card.id)
+    commands.unarchiveCard(this.props.card.id)
   }
 
   render(){
@@ -241,7 +241,7 @@ class ArchiveCardButton extends Component {
     this.archiveCard = this.archiveCard.bind(this)
   }
   archiveCard(){
-    commands.archiveCard(card.id)
+    commands.archiveCard(this.props.card.id)
   }
   render(){
     return <ConfirmationButton
